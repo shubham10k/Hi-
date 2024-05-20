@@ -1,1 +1,106 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guess the Number Game</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
+    text-align: center;
+    margin-top: 50px;
+  }
+  .game-container {
+    background-color: #fff;
+    width: 400px;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  .game-title {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  .game-input {
+    margin-bottom: 10px;
+  }
+  #guessInput {
+    width: 80%;
+    height: 40px;
+    font-size: 20px;
+    padding: 0 10px;
+    margin-bottom: 10px;
+    border: 2px solid #007bff;
+    border-radius: 4px;
+  }
+  #submitGuess {
+    width: 85%;
+    height: 45px;
+    font-size: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  #submitGuess:hover {
+    background-color: #0056b3;
+  }
+  #result {
+    color: #d9534f;
+    margin-top: 20px;
+    font-size: 24px;
+  }
+  #history {
+    color: #5cb85c;
+    font-size: 18px;
+  }
+</style>
+</head>
+<body>
+<div class="game-container">
+  <h1 class="game-title">Guess the Number Game</h1>
+  <p>We have selected a random number between 1 and 100. See if you can guess it in 10 turns or fewer. We'll tell you if your guess was too high or too low.</p>
+
+  <div class="game-input">
+    <input type="number" id="guessInput" placeholder="Enter your guess">
+    <button id="submitGuess">Submit Guess</button>
+  </div>
+
+  <div id="result"></div>
+  <div id="history"></div>
+</div>
+
+<script>
+  var randomNumber = Math.floor(Math.random() * 100) + 1;
+  var guesses = 0;
+  var guessHistory = [];
+
+  document.getElementById('submitGuess').onclick = function() {
+    var userGuess = document.getElementById('guessInput').value;
+    guesses++;
+    guessHistory.push(userGuess);
+    document.getElementById('history').textContent = 'Your guesses: ' + guessHistory.join(', ');
+
+    if (userGuess == randomNumber) {
+      document.getElementById('result').textContent = 'Congratulations! You got it right in ' + guesses + ' guesses!';
+      document.getElementById('result').style.color = '#5cb85c';
+      document.getElementById('submitGuess').disabled = true;
+    } else if (userGuess < randomNumber) {
+      document.getElementById('result').textContent = 'Your guess is too low.';
+    } else if (userGuess > randomNumber) {
+      document.getElementById('result').textContent = 'Your guess is too high.';
+    }
+
+    if (guesses === 10) {
+      document.getElementById('result').textContent += ' Game over! The number was ' + randomNumber;
+      document.getElementById('result').style.color = '#d9534f';
+      document.getElementById('submitGuess').disabled = true;
+    }
+  };
+</script>
+</body>
+</html>
